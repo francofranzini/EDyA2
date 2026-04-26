@@ -122,14 +122,40 @@ children ((NodeG a xs):rs) = (NodeB (children xs) a (children rs))
       cantidad de elementos posibles para este nivel y en el nivel tercer hay 3 elementos siendo la cantidad máxima 4.
    -}
 
+{-
+   Pasamos a una lista el ultimo nivel completo, subdividimos el trabajo en 
+      determinar el ultimo nivel completo
+      pasar ese nivel a lista
+
+
+-}
+
 dcn :: BinTree a -> [a]
-dcn = undefined
+dcn EB = []
+dcn (NodeB l x r) = (btl (ultimo_completo 0 (NodeB l x r)) (NodeB l x r))
+
+ultimo_completo :: Int -> BinTree a -> Int
+ultimo_completo x (NodeB EB y _) = x
+ultimo_completo x (NodeB _ y EB) = x
+ultimo_completo x (NodeB l y r) = let ul = (ultimo_completo (x+1) l)
+                                      ur = (ultimo_completo (x+1) r)
+                                      in min ur ul
+
+
+btl :: Int -> BinTree a -> [a]
+btl 0 (NodeB _ x _) = [x]
+btl x (NodeB l y r) = (btl (x-1) l) ++ (btl (x-1) r)
+
+
+
 
 {- b) maxn, que dado un árbol devuelva la profundidad del nivel completo
       más profundo. Por ejemplo, maxn t = 2   -}
 
 maxn :: BinTree a -> Int
-maxn = undefined
+maxn EB = 0
+maxn (NodeB l x r) = (ultimo_completo 0 (NodeB l x r)) + 1 
+   
 
 {- c) podar, que elimine todas las ramas necesarias para transformar
       el árbol en un árbol completo con la máxima altura posible. 
