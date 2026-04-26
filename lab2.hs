@@ -9,32 +9,62 @@ import Data.List
 
 -- 1) Dada la siguiente definición para representar árboles binarios:
 
-data BTree a = E | Leaf a | Node (BTree a) (BTree a)
+data BTree a = E 
+            |   Leaf a 
+            | Node (BTree a) (BTree a) 
+            deriving Show;
 
 -- Definir las siguientes funciones:
 
 -- a) altura, devuelve la altura de un árbol binario.
 
 altura :: BTree a -> Int
-altura = undefined
+altura E = 0
+altura (Leaf a)= 0
+altura (Node a b) = 1 + max (altura a) (altura b)
 
 -- b) perfecto, determina si un árbol binario es perfecto (un árbol binario es perfecto si cada nodo tiene 0 o 2 hijos
 -- y todas las hojas están a la misma distancia desde la raı́z).
 
 perfecto :: BTree a -> Bool
-perfecto= undefined
+perfecto E = True
+perfecto (Leaf a) = True
+perfecto (Node a b) = (hijos (Node a b)) && ((alturas 0 (Node a b)) /= -1)
 
+alturas :: Int -> BTree a -> Int
+alturas x E = x-1
+alturas x (Leaf a) = x
+alturas x (Node a b) = let l = (alturas (x+1) a);r = (alturas (x+1) b) in if (l == r) then l else -1  
+
+hijos :: BTree a -> Bool
+hijos (Node E E) = True
+hijos (Node (Leaf a) (Leaf b)) = True
+hijos (Node E _) = False
+hijos (Node _ E) = False
+hijos (Node (Leaf a) _) = False
+hijos (Node _ (Leaf b)) = False
+hijos (Node a b) = (hijos a) && (hijos b)
 -- c) inorder, dado un árbol binario, construye una lista con el recorrido inorder del mismo.
 
 inorder :: BTree a -> [a]
-inorder = undefined 
+inorder E = []
+inorder (Leaf a) = [a]
+inorder (Node a b) = (inorder a) ++ (inorder b)
+
+inorder2 :: BTree a -> [a]
+inorder2 arbol = (aux arbol []) 
+
+aux :: BTree a -> [a] -> [a]
+aux E xs = xs
+aux (Leaf a) xs = a:xs
+aux (Node a b) xs = aux a (aux b xs)
 
 
 -- 2) Dada las siguientes representaciones de árboles generales y de árboles binarios (con información en los nodos):
 
 data GTree a = EG | NodeG a [GTree a]
 
-data BinTree a = EB | NodeB (BinTree a) a (BinTree a)
+data BinTree a = EB | NodeB (BinTree a) a (BinTree a) deriving Show;
 
 {- Definir una función g2bt que dado un árbol nos devuelva un árbol binario de la siguiente manera:
    la función g2bt reemplaza cada nodo n del árbol general (NodeG) por un nodo n' del árbol binario (NodeB ), donde
@@ -71,9 +101,11 @@ data BinTree a = EB | NodeB (BinTree a) a (BinTree a)
 
 g2bt :: GTree a -> BinTree a
 g2bt EG = EB
-g2bt (NodeG a []) = (NodeB EB a EB)
---A mi hijo izquierdo le tengo que decir quien es su hijo derecho
-g2bt (NodeG a ((NodeG x ss):hi@(NodeG h ss2):xs)) = (NodeB (NodeB (g2bt ss) x (g2bt (NodeG h ss2++xs))) a EB)
+g2bt (NodeG a hs) = (NodeB (children hs) a EB)
+
+children :: [GTree a] -> BinTree a
+children [] = EB
+children ((NodeG a xs):rs) = (NodeB (children xs) a (children rs))
 
 
 -- 3) Utilizando el tipo de árboles binarios definido en el ejercicio anterior, definir las siguientes funciones: 
