@@ -1,0 +1,40 @@
+=== Apunte 01 — Modelo de Costo ===
+1. Notación asintótica: O, Ω, Θ
+2. Modelo de costo basado en lenguajes: Trabajo (W) y Profundidad (S), paralelismo P = W/S
+3. Principio del Scheduler Voraz (Brent)
+4. DyC general: W_DyC y S_DyC, Mergesort como ejemplo (W_msort ∈ O(n lg n), S_msort ∈ O(n))
+
+=== Apunte 02 — Recurrencias ===
+5. Método de sustitución
+6. Árboles de recurrencia
+7. Funciones b-suaves, funciones suaves, regla de suavidad
+8. Teorema Maestro
+
+=== Apunte 04 — Tipos en Haskell ===
+9. Sinónimos de tipos (type), declaraciones data, constructores de tipos (Maybe, Either), tipos recursivos
+10. Codificación de Huffman: árboles, decodificación, codificación, construcción
+
+=== Apunte 05 — Estructuras Inmutables ===
+11. Estructuras inmutables vs efímeras, sharing
+12. BSTs: member, insert, delete, sharing
+13. RBTs: invariantes, inserción y rebalanceo (balance)
+14. Leftist Heap: rango, invariante leftist, merge, insert, findMin, deleteMin
+
+=== Apunte 06 — TADs ===
+15. Qué es un TAD: especificación algebraica / por modelos, implementación, uso, especificación de costo
+
+=== Apunte 07 — Inducción ===
+16. Razonamiento ecuacional, análisis por casos, extensionalidad
+17. Inducción sobre naturales (1ra y 2da forma) e inducción estructural
+18. Compilador correcto: eval, comp, exec, prueba por inducción estructural, generalización de la hipótesis inductiva
+
+=== Apunte 08 — Paralelo ===
+19. Paralelización de Mergesort: msort en listas vs árboles, merge sobre árboles, rebalance, profundidad O((lg n)³)
+20. reduceT, mapT vs mapreduce
+
+=== Apunte 09 — Secuencias ===
+21. reduce: orden de reducción, árbol de reducción, DyC con reduce, MCSS con reduce
+22. Costo general de reduce y scan cuando ⊕ ∉ O(1): Or, Os
+23. scan: especificación, implementación ingenua, contracción/expansión, orden de reducción, costos
+24. Arreglos persistentes: operaciones y costos
+25. collect, map-reduce en Google
